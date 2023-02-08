@@ -1,17 +1,17 @@
-import CMShareVideoEdit from './CMShareVideo/CMShareVideoEdit';
-import CMShareVideoView from './CMShareVideo/CMShareVideoView';
-import VideoBlockSchema from './CMShareVideo/schema';
+import NextCloudVideoEdit from './NextCloud/NextCloudVideoEdit';
+import NextCloudVideoView from './NextCloud/NextCloudVideoView';
+import VideoBlockSchema from './NextCloud/schema';
 import Bell from '@plone/volto/icons/video.svg';
 
 const applyConfig = (config) => {
-  config.blocks.blocksConfig.cmsharevideo = {
-    ...config.blocks.blocksConfig.cmsharevideo,
-    id: 'cmsharevideo',
-    title: 'CMShareVideo',
+  config.blocks.blocksConfig.nextCloudVideo = {
+    ...config.blocks.blocksConfig.nextCloudVideo,
+    id: 'nextCloudVideo',
+    title: 'nextCloudVideo',
     icon: Bell,
     group: 'text',
-    view: CMShareVideoView,
-    edit: CMShareVideoEdit,
+    view: NextCloudVideoView,
+    edit: NextCloudVideoEdit,
     schema: VideoBlockSchema,
     restricted: false,
     mostUsed: true,

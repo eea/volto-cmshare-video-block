@@ -21,12 +21,12 @@ import { compose } from 'redux';
 
 const messages = defineMessages({
   VideoFormDescription: {
-    id: 'Specify a CMShare video or playlist url',
-    defaultMessage: 'Specify a CMShare video or playlist url',
+    id: 'Specify a NextCloud video or playlist url',
+    defaultMessage: 'Specify a NextCloud video or playlist url',
   },
   VideoBlockInputPlaceholder: {
-    id: 'Type a Video (CMShare video) URL',
-    defaultMessage: 'Type a Video (CMShare video) URL',
+    id: 'Type a Video (NextCloud video) URL',
+    defaultMessage: 'Type a Video (NextCloud video) URL',
   },
 });
 
