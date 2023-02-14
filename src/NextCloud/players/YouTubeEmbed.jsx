@@ -24,9 +24,10 @@ const YouTubeEmbed = ({ data, embedSettings }) => {
       : data.url.match(/^.*\?v=(.*)$/)[1];
   }
 
-  const placeholder = embedSettings.placeholder ? embedSettings.placeholder :
-    'https://img.youtube.com/vi/' + videoID + '/sddefault.jpg';
-  const resultEmbedSettings = { ...embedSettings, placeholder }
+  const placeholder = embedSettings.placeholder
+    ? embedSettings.placeholder
+    : 'https://img.youtube.com/vi/' + videoID + '/sddefault.jpg';
+  const resultEmbedSettings = { ...embedSettings, placeholder };
 
   return (
     <>
@@ -49,7 +50,7 @@ const YouTubeEmbed = ({ data, embedSettings }) => {
  */
 YouTubeEmbed.propTypes = {
   embedSettings: PropTypes.objectOf(PropTypes.any).isRequired,
-  data: PropTypes.objectOf(PropTypes.any).isRequired
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default YouTubeEmbed;

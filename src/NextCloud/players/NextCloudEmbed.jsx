@@ -17,10 +17,11 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
     <video
       src={
         isInternalURL(data.url)
-        ? data.url.includes('@@download')
-          ? data.url
-          : `${flattenToAppURL(data.url)}/@@download/file`
-        : `${data.url}/download`}
+          ? data.url.includes('@@download')
+            ? data.url
+            : `${flattenToAppURL(data.url)}/@@download/file`
+          : `${data.url}/download`
+      }
       controls
       poster={embedSettings.placeholder}
       type="video/mp4"

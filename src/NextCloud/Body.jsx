@@ -49,13 +49,16 @@ const Body = ({ data }) => {
       [playerName]: player,
     };
   }, {});
-  const SelectedPlayerComponent = allowedPlayersList.reduce((acc, currentPlayerName) => {
-    // eslint-disable-next-line no-unused-expressions
-    const result = data.url.match(currentPlayerName)
-      ? allowedPlayers[currentPlayerName]
-      : acc;
-    return result;
-  }, allowedPlayers.nextCloud)
+  const SelectedPlayerComponent = allowedPlayersList.reduce(
+    (acc, currentPlayerName) => {
+      // eslint-disable-next-line no-unused-expressions
+      const result = data.url.match(currentPlayerName)
+        ? allowedPlayers[currentPlayerName]
+        : acc;
+      return result;
+    },
+    allowedPlayers.nextCloud,
+  );
 
   return (
     <>

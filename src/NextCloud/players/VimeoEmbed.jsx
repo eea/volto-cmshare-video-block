@@ -13,9 +13,10 @@ import { Embed } from 'semantic-ui-react';
  */
 const VimeoEmbed = ({ data, embedSettings }) => {
   const videoID = data.url.match(/^.*\.com\/(.*)/)[1];
-  const placeholder = embedSettings.placeholder ? embedSettings.placeholder :
-    'https://vumbnail.com/' + videoID + '.jpg';
-  const resultEmbedSettings = { ...embedSettings, placeholder }
+  const placeholder = embedSettings.placeholder
+    ? embedSettings.placeholder
+    : 'https://vumbnail.com/' + videoID + '.jpg';
+  const resultEmbedSettings = { ...embedSettings, placeholder };
 
   return <Embed id={videoID} source="vimeo" {...resultEmbedSettings} />;
 };
