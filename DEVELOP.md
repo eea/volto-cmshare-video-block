@@ -49,3 +49,4 @@ Before starting make sure your development environment is properly set. See [Vol
 1.  Happy hacking!
 
         cd src/addons/volto-addon-template/
+ns/volto-cmshare-video-block/
