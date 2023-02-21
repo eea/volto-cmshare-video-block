@@ -25,8 +25,8 @@ const messages = defineMessages({
     defaultMessage: 'Specify a NextCloud video or playlist url',
   },
   VideoBlockInputPlaceholder: {
-    id: 'Type a Video (NextCloud video) URL',
-    defaultMessage: 'Type a Video (NextCloud video) URL',
+    id: 'Video URL (NextCloud)',
+    defaultMessage: 'Video URL (NextCloud)',
   },
 });
 

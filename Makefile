@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 
 DIR=$(shell basename $$(pwd))
-ADDON ?= "@eeacms/volto-cmshare-video-block"
+ADDON ?= "@eeacms/volto-nextcloud-video-block"
 
 # We like colors
 # From: https://coderwall.com/p/izxssa/colored-makefile-for-golang-projects

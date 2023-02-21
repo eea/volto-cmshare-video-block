@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-        GIT_NAME = "volto-cmshare-video-block"
+        GIT_NAME = "volto-nextcloud-video-block"
         NAMESPACE = "@eeacms"
         SONARQUBE_TAGS = "volto.eea.europa.eu"
         DEPENDENCIES = ""

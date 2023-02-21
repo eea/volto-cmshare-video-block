@@ -40,8 +40,7 @@ const Body = ({ data }) => {
     ref: ref,
   };
 
-  const allowedPlayersList = config.blocks.blocksConfig?.nextCloudVideo
-    ?.whiteList || ['nextCloud'];
+  const allowedPlayersList = ['nextCloud'];
   const allowedPlayers = allowedPlayersList.reduce((acc, playerName) => {
     const player = players[playerName];
     return {
