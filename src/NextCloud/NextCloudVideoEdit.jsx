@@ -16,8 +16,9 @@ import clearSVG from '@plone/volto/icons/clear.svg';
 import aheadSVG from '@plone/volto/icons/ahead.svg';
 import videoBlockSVG from '@plone/volto/components/manage/Blocks/Video/block-video.svg';
 import Body from './Body';
-import { withBlockExtensions } from '@plone/volto/helpers';
+import { withBlockExtensions, isInternalURL, flattenToAppURL } from '@plone/volto/helpers';
 import { compose } from 'redux';
+import config from '@plone/volto/registry';
 
 const messages = defineMessages({
   VideoFormDescription: {
@@ -65,10 +66,19 @@ class Edit extends Component {
 
     this.onChangeUrl = this.onChangeUrl.bind(this);
     this.onSubmitUrl = this.onSubmitUrl.bind(this);
+    this.isValidUrl = this.isValidUrl.bind(this);
     this.onKeyDownVariantMenuForm = this.onKeyDownVariantMenuForm.bind(this);
+    this.allowedDomainList = config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || [];
     this.state = {
       url: '',
     };
+  }
+
+  isValidUrl(url) {
+    const internalVideoUrl = isInternalURL(url)
+    const isAllowed = url?.match('https://cmshare.eea.europa.eu');
+
+    return internalVideoUrl || isAllowed;
   }
 
   /**
@@ -142,7 +152,7 @@ class Edit extends Component {
   render() {
     const { data } = this.props;
     const placeholder =
-      this.props.data.placeholder ||
+      data.placeholder ||
       this.props.intl.formatMessage(messages.VideoBlockInputPlaceholder);
     return (
       <div
@@ -150,61 +160,65 @@ class Edit extends Component {
           'block video align',
           {
             selected: this.props.selected,
-            center: !Boolean(this.props.data.align),
+            center: !Boolean(data.align),
           },
-          this.props.data.align,
+          data.align,
         )}
       >
-        {data.url ? (
-          <Body data={this.props.data} isEditMode={true} />
+        {data.url && this.isValidUrl(data.url) ? (
+          <Body data={data} isEditMode={true} />
         ) : (
-          <Message>
-            <center>
-              <img src={videoBlockSVG} alt="" />
-              <div className="toolbar-inner">
-                <Input
-                  onKeyDown={this.onKeyDownVariantMenuForm}
-                  onChange={this.onChangeUrl}
-                  placeholder={placeholder}
-                  value={this.state.url}
-                  // Prevents propagation to the Dropzone and the opening
-                  // of the upload browser dialog
-                  onClick={(e) => e.stopPropagation()}
-                />
-                {this.state.url && (
-                  <Button.Group>
-                    <Button
-                      basic
-                      className="cancel"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        this.setState({ url: '' });
-                      }}
-                    >
-                      <Icon name={clearSVG} size="30px" />
-                    </Button>
-                  </Button.Group>
-                )}
+          <center>
+            <img src={videoBlockSVG} alt="" />
+            <div className="toolbar-inner">
+              <Input
+                onKeyDown={this.onKeyDownVariantMenuForm}
+                onChange={this.onChangeUrl}
+                placeholder={placeholder}
+                value={this.state.url}
+                // Prevents propagation to the Dropzone and the opening
+                // of the upload browser dialog
+                onClick={(e) => e.stopPropagation()}
+                error={data.url && !this.isValidUrl(data.url)}
+              />
+              {this.state.url && (
                 <Button.Group>
                   <Button
                     basic
-                    primary
+                    className="cancel"
                     onClick={(e) => {
                       e.stopPropagation();
-                      this.onSubmitUrl();
+                      this.setState({ url: '' });
                     }}
                   >
-                    <Icon name={aheadSVG} size="30px" />
+                    <Icon name={clearSVG} size="30px" />
                   </Button>
                 </Button.Group>
-              </div>
-            </center>
-          </Message>
-        )}
+              )}
+              <Button.Group>
+                <Button
+                  basic
+                  primary
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    this.onSubmitUrl();
+                  }}
+                >
+                  <Icon name={aheadSVG} size="30px" />
+                </Button>
+              </Button.Group>
+            </div>
+            {data.url && !this.isValidUrl(data.url) && <Message
+              error
+              content='Please enter a valid video URL.'
+            />}
+          </center>
+        )
+        }
         <SidebarPortal selected={this.props.selected}>
           <VideoSidebar {...this.props} resetSubmitUrl={this.resetSubmitUrl} />
         </SidebarPortal>
-      </div>
+      </div >
     );
   }
 }

@@ -19,7 +19,7 @@
 
 ## Features
 
-Demo GIF
+This add-on only allows playback from Nextcloud videos, from a selection of allowed domains.
 
 ## Getting started
 
