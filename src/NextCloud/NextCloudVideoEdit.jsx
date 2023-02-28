@@ -210,7 +210,7 @@ class Edit extends Component {
             </div>
             {data.url && !this.isValidUrl(data.url) && <Message
               error
-              content='Please enter a valid video URL.'
+              content={`Please enter a valid video URL from the following whitelist domains: ${this.allowedDomainList.join(', ')}`}
             />}
           </center>
         )
