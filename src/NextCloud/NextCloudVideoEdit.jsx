@@ -68,8 +68,10 @@ class Edit extends Component {
     this.onSubmitUrl = this.onSubmitUrl.bind(this);
     this.isValidUrl = this.isValidUrl.bind(this);
     this.onKeyDownVariantMenuForm = this.onKeyDownVariantMenuForm.bind(this);
-    this.allowedDomainList =
-      config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || [];
+    this.allowedDomainList = [
+      config.settings.publicURL,
+      ...(config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || []),
+    ];
     this.state = {
       url: '',
     };
@@ -212,7 +214,7 @@ class Edit extends Component {
             {data.url && !this.isValidUrl(data.url) && (
               <Message
                 error
-                content={`Please enter a valid video URL from the following whitelist domains: ${this.allowedDomainList.join(
+                content={`Please enter a valid video URL, starting with: ${this.allowedDomainList.join(
                   ', ',
                 )}`}
               />
