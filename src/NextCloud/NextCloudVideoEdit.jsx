@@ -16,7 +16,7 @@ import clearSVG from '@plone/volto/icons/clear.svg';
 import aheadSVG from '@plone/volto/icons/ahead.svg';
 import videoBlockSVG from '@plone/volto/components/manage/Blocks/Video/block-video.svg';
 import Body from './Body';
-import { withBlockExtensions, isInternalURL, flattenToAppURL } from '@plone/volto/helpers';
+import { withBlockExtensions, isInternalURL } from '@plone/volto/helpers';
 import { compose } from 'redux';
 import config from '@plone/volto/registry';
 
@@ -68,14 +68,15 @@ class Edit extends Component {
     this.onSubmitUrl = this.onSubmitUrl.bind(this);
     this.isValidUrl = this.isValidUrl.bind(this);
     this.onKeyDownVariantMenuForm = this.onKeyDownVariantMenuForm.bind(this);
-    this.allowedDomainList = config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || [];
+    this.allowedDomainList =
+      config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || [];
     this.state = {
       url: '',
     };
   }
 
   isValidUrl(url) {
-    const internalVideoUrl = isInternalURL(url)
+    const internalVideoUrl = isInternalURL(url);
     const isAllowed = url?.match('https://cmshare.eea.europa.eu');
 
     return internalVideoUrl || isAllowed;
@@ -208,17 +209,20 @@ class Edit extends Component {
                 </Button>
               </Button.Group>
             </div>
-            {data.url && !this.isValidUrl(data.url) && <Message
-              error
-              content={`Please enter a valid video URL from the following whitelist domains: ${this.allowedDomainList.join(', ')}`}
-            />}
+            {data.url && !this.isValidUrl(data.url) && (
+              <Message
+                error
+                content={`Please enter a valid video URL from the following whitelist domains: ${this.allowedDomainList.join(
+                  ', ',
+                )}`}
+              />
+            )}
           </center>
-        )
-        }
+        )}
         <SidebarPortal selected={this.props.selected}>
           <VideoSidebar {...this.props} resetSubmitUrl={this.resetSubmitUrl} />
         </SidebarPortal>
-      </div >
+      </div>
     );
   }
 }
