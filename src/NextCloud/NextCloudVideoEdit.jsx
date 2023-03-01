@@ -30,9 +30,8 @@ const messages = defineMessages({
     defaultMessage: 'Video URL (NextCloud)',
   },
   VideoBlockInputError: {
-    id: 'Please enter a valid video URL from the following whitelist domains:',
-    defaultMessage:
-      'Please enter a valid video URL from the following whitelist domains:',
+    id: 'Please enter a valid video URL, starting with: ',
+    defaultMessage: 'Please enter a valid video URL, starting with: ',
   },
 });
 
@@ -69,27 +68,24 @@ class Edit extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeUrl = this.onChangeUrl.bind(this);
-    this.onSubmitUrl = this.onSubmitUrl.bind(this);
-    this.isValidUrl = this.isValidUrl.bind(this);
-    this.onKeyDownVariantMenuForm = this.onKeyDownVariantMenuForm.bind(this);
     this.allowedDomainList = [
       config.settings.publicURL,
       ...(config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || []),
     ];
     this.state = {
-      url: '',
+      url: props.data?.url || '',
+      valid: true,
     };
   }
 
-  isValidUrl(url) {
+  isValidUrl = (url) => {
     const internalVideoUrl = isInternalURL(url);
     const isAllowed = this.allowedDomainList.some((domain) =>
       url?.match(domain),
     );
 
     return internalVideoUrl || isAllowed;
-  }
+  };
 
   /**
    * Change url handler
@@ -97,11 +93,11 @@ class Edit extends Component {
    * @param {Object} target Target object
    * @returns {undefined}
    */
-  onChangeUrl({ target }) {
+  onChangeUrl = ({ target }) => {
     this.setState({
       url: target.value,
     });
-  }
+  };
 
   /**
    * @param {*} nextProps
@@ -121,18 +117,26 @@ class Edit extends Component {
    * @method onSubmitUrl
    * @returns {undefined}
    */
-  onSubmitUrl() {
+  onSubmitUrl = () => {
     if (this.isValidUrl(this.state.url)) {
       this.props.onChangeBlock(this.props.block, {
         ...this.props.data,
         url: this.state.url,
       });
+      this.setState({
+        valid: true,
+      });
+    } else {
+      this.setState({
+        valid: false,
+      });
     }
-  }
+  };
 
   resetSubmitUrl = () => {
     this.setState({
       url: '',
+      valid: true,
     });
   };
 
@@ -144,7 +148,7 @@ class Edit extends Component {
    * @param {Object} e Event object
    * @returns {undefined}
    */
-  onKeyDownVariantMenuForm(e) {
+  onKeyDownVariantMenuForm = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       e.stopPropagation();
@@ -152,9 +156,9 @@ class Edit extends Component {
     } else if (e.key === 'Escape') {
       e.preventDefault();
       e.stopPropagation();
-      // TODO: Do something on ESC key
+      this.resetSubmitUrl();
     }
-  }
+  };
 
   /**
    * Render method.
@@ -177,7 +181,7 @@ class Edit extends Component {
           data.align,
         )}
       >
-        {data.url && this.isValidUrl(data.url) ? (
+        {data.url && this.state.valid ? (
           <Body data={data} isEditMode={true} />
         ) : (
           <center>
@@ -188,10 +192,13 @@ class Edit extends Component {
                 onChange={this.onChangeUrl}
                 placeholder={placeholder}
                 value={this.state.url}
-                // Prevents propagation to the Dropzone and the opening
-                // of the upload browser dialog
-                onClick={(e) => e.stopPropagation()}
-                error={data.url && !this.isValidUrl(data.url)}
+                onClick={(e) => {
+                  e.target.focus();
+                }}
+                onFocus={(e) => {
+                  this.props.onSelectBlock(this.props.id);
+                }}
+                error={this.state.url && !this.state.valid}
               />
               {this.state.url && (
                 <Button.Group>
@@ -200,7 +207,7 @@ class Edit extends Component {
                     className="cancel"
                     onClick={(e) => {
                       e.stopPropagation();
-                      this.setState({ url: '' });
+                      this.resetSubmitUrl();
                     }}
                   >
                     <Icon name={clearSVG} size="30px" />
@@ -211,6 +218,7 @@ class Edit extends Component {
                 <Button
                   basic
                   primary
+                  disabled={!this.state.url}
                   onClick={(e) => {
                     e.stopPropagation();
                     this.onSubmitUrl();
@@ -220,7 +228,7 @@ class Edit extends Component {
                 </Button>
               </Button.Group>
             </div>
-            {this.state.url && !this.isValidUrl(this.state.url) && (
+            {this.state.url && !this.state.valid && (
               <Message
                 error
                 content={`${this.props.intl.formatMessage(
