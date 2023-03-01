@@ -29,6 +29,11 @@ const messages = defineMessages({
     id: 'Video URL (NextCloud)',
     defaultMessage: 'Video URL (NextCloud)',
   },
+  VideoBlockInputError: {
+    id: 'Please enter a valid video URL from the following whitelist domains:',
+    defaultMessage:
+      'Please enter a valid video URL from the following whitelist domains:',
+  },
 });
 
 /**
@@ -79,7 +84,9 @@ class Edit extends Component {
 
   isValidUrl(url) {
     const internalVideoUrl = isInternalURL(url);
-    const isAllowed = url?.match('https://cmshare.eea.europa.eu');
+    const isAllowed = this.allowedDomainList.some((domain) =>
+      url?.match(domain),
+    );
 
     return internalVideoUrl || isAllowed;
   }
@@ -214,9 +221,9 @@ class Edit extends Component {
             {data.url && !this.isValidUrl(data.url) && (
               <Message
                 error
-                content={`Please enter a valid video URL, starting with: ${this.allowedDomainList.join(
-                  ', ',
-                )}`}
+                content={`${this.props.intl.formatMessage(
+                  messages.VideoBlockInputPlaceholder,
+                )} ${this.allowedDomainList.join(', ')}`}
               />
             )}
           </center>
