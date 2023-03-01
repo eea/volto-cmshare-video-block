@@ -19,7 +19,9 @@
 
 ## Features
 
-Demo GIF
+This add-on only allows playback from Nextcloud videos, from a selection of allowed domains.
+![Nextcloud](https://github.com/eea/volto-nextcloud-video-block/raw/develop/docs/Nextcloud-video.gif)
+
 
 ## Getting started
 
@@ -54,6 +56,21 @@ Demo GIF
    ```
    yarn
    yarn start
+   ```
+1. Add whitelist in index.js
+   ```JSON
+      const applyConfig = (config) => {
+         config.blocks.blocksConfig.nextCloudVideo = {
+         ....
+            whiteList: [
+               'https://cmshare.eea.europa.eu',
+               'https://shareit.eea.europa.eu',
+            ],
+         ....
+         };
+
+         return config;
+      };
    ```
 
 1. Go to http://localhost:3000

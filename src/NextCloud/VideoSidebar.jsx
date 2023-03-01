@@ -18,7 +18,7 @@ const messages = defineMessages({
 });
 
 const VideoSidebar = (props) => {
-  const { data, block, onChangeBlock } = props;
+  const { data, block, onChangeBlock, resetSubmitUrl } = props;
   const intl = useIntl();
   const schema = VideoBlockSchema({ ...props, intl });
 
@@ -34,6 +34,9 @@ const VideoSidebar = (props) => {
           schema={schema}
           title={intl.formatMessage(messages.Video)}
           onChangeField={(id, value) => {
+            if (id === 'url' && !value) {
+              resetSubmitUrl();
+            }
             onChangeBlock(block, {
               ...data,
               [id]: value,
