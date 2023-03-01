@@ -122,10 +122,12 @@ class Edit extends Component {
    * @returns {undefined}
    */
   onSubmitUrl() {
-    this.props.onChangeBlock(this.props.block, {
-      ...this.props.data,
-      url: this.state.url,
-    });
+    if (this.isValidUrl(this.state.url)) {
+      this.props.onChangeBlock(this.props.block, {
+        ...this.props.data,
+        url: this.state.url,
+      });
+    }
   }
 
   resetSubmitUrl = () => {
@@ -218,11 +220,11 @@ class Edit extends Component {
                 </Button>
               </Button.Group>
             </div>
-            {data.url && !this.isValidUrl(data.url) && (
+            {this.state.url && !this.isValidUrl(this.state.url) && (
               <Message
                 error
                 content={`${this.props.intl.formatMessage(
-                  messages.VideoBlockInputPlaceholder,
+                  messages.VideoBlockInputError,
                 )} ${this.allowedDomainList.join(', ')}`}
               />
             )}
