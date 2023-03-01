@@ -52,7 +52,7 @@ const Body = ({ data }) => {
   const SelectedPlayerComponent = allowedPlayersList.reduce(
     (acc, currentPlayerName) => {
       // eslint-disable-next-line no-unused-expressions
-      const result = data.url.match(currentPlayerName)
+      const result = data.url?.match(currentPlayerName)
         ? allowedPlayers[currentPlayerName]
         : acc;
       return result;
