@@ -23,9 +23,9 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
             : `${flattenToAppURL(data.url)}/@@download/file`
           : `${data.url}/download`
       }
-      controls={!data.use_video_as_background}
-      autoPlay={data.use_video_as_background}
-      loop={data.use_video_as_background}
+      controls={!data.autoPlay}
+      autoPlay={data.autoPlay}
+      loop={data.loop}
       poster={embedSettings.placeholder}
       type="video/mp4"
     />

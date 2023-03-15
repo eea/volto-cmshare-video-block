@@ -17,9 +17,13 @@ const messages = defineMessages({
     id: 'Alignment',
     defaultMessage: 'Alignment',
   },
-  use_video_as_background: {
-    id: 'Use Video as Background',
-    defaultMessage: 'Use Video as Background',
+  autoPlay: {
+    id: 'Video Autoplay',
+    defaultMessage: 'Video Autoplay',
+  },
+  loop: {
+    id: 'Video Loop',
+    defaultMessage: 'Video Loop',
   },
 });
 export const VideoBlockSchema = (props) => ({
@@ -29,7 +33,7 @@ export const VideoBlockSchema = (props) => ({
     {
       id: 'default',
       title: 'Default',
-      fields: ['url', 'preview_image', 'align', 'use_video_as_background'],
+      fields: ['url', 'preview_image', 'align', 'autoPlay', 'loop'],
     },
   ],
 
@@ -46,8 +50,12 @@ export const VideoBlockSchema = (props) => ({
       title: props.intl.formatMessage(messages.Alignment),
       widget: 'align',
     },
-    use_video_as_background: {
-      title: props.intl.formatMessage(messages.use_video_as_background),
+    autoPlay: {
+      title: props.intl.formatMessage(messages.autoPlay),
+      type: 'boolean',
+    },
+    loop: {
+      title: props.intl.formatMessage(messages.loop),
       type: 'boolean',
     },
   },
