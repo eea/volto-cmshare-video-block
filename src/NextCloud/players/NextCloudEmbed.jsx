@@ -25,6 +25,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
       }
       controls={!data.autoPlay}
       autoPlay={data.autoPlay}
+      muted={data.autoPlay}
       loop={data.loop}
       poster={embedSettings.placeholder}
       type="video/mp4"
