@@ -19,7 +19,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
       src={
         isInternalURL(data.url)
           ? data.url.includes('@@download')
-            ? data.url
+            ? flattenToAppURL(data.url)
             : `${flattenToAppURL(data.url)}/@@download/file`
           : `${data.url}/download`
       }
