@@ -17,6 +17,7 @@ import aheadSVG from '@plone/volto/icons/ahead.svg';
 import videoBlockSVG from '@plone/volto/components/manage/Blocks/Video/block-video.svg';
 import Body from './Body';
 import { withBlockExtensions, isInternalURL } from '@plone/volto/helpers';
+import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
 import { compose } from 'redux';
 import config from '@plone/volto/registry';
 
@@ -73,7 +74,7 @@ class Edit extends Component {
       ...(config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || []),
     ];
     this.state = {
-      url: props.data?.url || '',
+      url: getFieldURL(props.data?.url) || '',
       valid: true,
     };
   }
@@ -118,10 +119,10 @@ class Edit extends Component {
    * @returns {undefined}
    */
   onSubmitUrl = () => {
-    if (this.isValidUrl(this.state.url)) {
+    if (this.isValidUrl(getFieldURL(this.state.url))) {
       this.props.onChangeBlock(this.props.block, {
         ...this.props.data,
-        url: this.state.url,
+        url: getFieldURL(this.state.url),
       });
       this.setState({
         valid: true,
@@ -181,7 +182,7 @@ class Edit extends Component {
           data.align,
         )}
       >
-        {data.url && this.state.valid ? (
+        {getFieldURL(data.url) && this.state.valid ? (
           <Body data={data} isEditMode={true} />
         ) : (
           <center>
