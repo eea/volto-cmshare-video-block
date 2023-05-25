@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { isInternalURL, flattenToAppURL } from '@plone/volto/helpers';
+import { isInternalURL } from '@plone/volto/helpers';
 import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
 import players from './players';
 
@@ -20,7 +20,7 @@ const Body = ({ data }) => {
   const url = getFieldURL(data.url);
   let placeholder = previewImage
     ? isInternalURL(previewImage)
-      ? `${flattenToAppURL(previewImage)}/@@images/image`
+      ? `${previewImage}/@@images/image`
       : previewImage
     : null;
 
