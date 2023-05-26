@@ -4,21 +4,23 @@
  */
 
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { isEqual } from 'lodash';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl } from 'react-intl';
 import { Button, Input, Message } from 'semantic-ui-react';
-import cx from 'classnames';
-import { isEqual } from 'lodash';
 
-import { Icon, SidebarPortal } from '@plone/volto/components';
-import VideoSidebar from './VideoSidebar';
-import clearSVG from '@plone/volto/icons/clear.svg';
-import aheadSVG from '@plone/volto/icons/ahead.svg';
-import videoBlockSVG from '@plone/volto/components/manage/Blocks/Video/block-video.svg';
-import Body from './Body';
-import { withBlockExtensions, isInternalURL } from '@plone/volto/helpers';
-import { compose } from 'redux';
 import config from '@plone/volto/registry';
+import { Icon, SidebarPortal } from '@plone/volto/components';
+import { withBlockExtensions, isInternalURL } from '@plone/volto/helpers';
+import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
+import VideoSidebar from './VideoSidebar';
+import Body from './Body';
+
+import aheadSVG from '@plone/volto/icons/ahead.svg';
+import clearSVG from '@plone/volto/icons/clear.svg';
+import videoBlockSVG from '@plone/volto/components/manage/Blocks/Video/block-video.svg';
 
 const messages = defineMessages({
   VideoFormDescription: {
@@ -73,7 +75,7 @@ class Edit extends Component {
       ...(config?.blocks?.blocksConfig?.nextCloudVideo?.whiteList || []),
     ];
     this.state = {
-      url: props.data?.url || '',
+      url: getFieldURL(props.data?.url) || '',
       valid: true,
     };
   }
@@ -170,6 +172,7 @@ class Edit extends Component {
     const placeholder =
       data.placeholder ||
       this.props.intl.formatMessage(messages.VideoBlockInputPlaceholder);
+
     return (
       <div
         className={cx(
@@ -181,7 +184,7 @@ class Edit extends Component {
           data.align,
         )}
       >
-        {data.url && this.state.valid ? (
+        {getFieldURL(data.url) && this.state.valid ? (
           <Body data={data} isEditMode={true} />
         ) : (
           <center>
