@@ -4,22 +4,23 @@
  */
 
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { isEqual } from 'lodash';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl } from 'react-intl';
 import { Button, Input, Message } from 'semantic-ui-react';
-import cx from 'classnames';
-import { isEqual } from 'lodash';
 
+import config from '@plone/volto/registry';
 import { Icon, SidebarPortal } from '@plone/volto/components';
-import VideoSidebar from './VideoSidebar';
-import clearSVG from '@plone/volto/icons/clear.svg';
-import aheadSVG from '@plone/volto/icons/ahead.svg';
-import videoBlockSVG from '@plone/volto/components/manage/Blocks/Video/block-video.svg';
-import Body from './Body';
 import { withBlockExtensions, isInternalURL } from '@plone/volto/helpers';
 import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
-import { compose } from 'redux';
-import config from '@plone/volto/registry';
+import VideoSidebar from './VideoSidebar';
+import Body from './Body';
+
+import aheadSVG from '@plone/volto/icons/ahead.svg';
+import clearSVG from '@plone/volto/icons/clear.svg';
+import videoBlockSVG from '@plone/volto/components/manage/Blocks/Video/block-video.svg';
 
 const messages = defineMessages({
   VideoFormDescription: {
@@ -119,10 +120,10 @@ class Edit extends Component {
    * @returns {undefined}
    */
   onSubmitUrl = () => {
-    if (this.isValidUrl(getFieldURL(this.state.url))) {
+    if (this.isValidUrl(this.state.url)) {
       this.props.onChangeBlock(this.props.block, {
         ...this.props.data,
-        url: getFieldURL(this.state.url),
+        url: this.state.url,
       });
       this.setState({
         valid: true,
@@ -171,6 +172,7 @@ class Edit extends Component {
     const placeholder =
       data.placeholder ||
       this.props.intl.formatMessage(messages.VideoBlockInputPlaceholder);
+
     return (
       <div
         className={cx(
