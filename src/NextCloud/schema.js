@@ -1,4 +1,5 @@
 import { defineMessages } from 'react-intl';
+import config from '@plone/volto/registry';
 
 const messages = defineMessages({
   Video: {
@@ -25,41 +26,88 @@ const messages = defineMessages({
     id: 'Video Loop',
     defaultMessage: 'Video Loop',
   },
-});
-export const VideoBlockSchema = (props) => ({
-  title: props.intl.formatMessage(messages.Video),
-  block: 'Video',
-  fieldsets: [
-    {
-      id: 'default',
-      title: 'Default',
-      fields: ['url', 'preview_image', 'align', 'autoPlay', 'loop'],
-    },
-  ],
-
-  properties: {
-    url: {
-      title: props.intl.formatMessage(messages.VideoURL),
-      widget: 'url',
-    },
-    preview_image: {
-      title: props.intl.formatMessage(messages.Preview_image),
-      widget: 'url',
-    },
-    align: {
-      title: props.intl.formatMessage(messages.Alignment),
-      widget: 'align',
-    },
-    autoPlay: {
-      title: props.intl.formatMessage(messages.autoPlay),
-      type: 'boolean',
-    },
-    loop: {
-      title: props.intl.formatMessage(messages.loop),
-      type: 'boolean',
-    },
+  language: {
+    id: 'Language',
+    defaultMessage: 'Language',
   },
-  required: [],
+  file: {
+    id: 'File',
+    defaultMessage: 'File',
+  },
 });
+
+export const VideoBlockSchema = (props) => {
+  const subtitlesSchema = {
+    title: 'Subtitles',
+    fieldsets: [
+      {
+        id: 'default',
+        title: 'Default',
+        fields: ['language', 'file'],
+      },
+    ],
+    properties: {
+      language: {
+        title: props.intl.formatMessage(messages.language),
+        choices: [
+          ...(config?.settings?.eea.languages.map((el) => [el.code, el.name]) ||
+            []),
+        ],
+      },
+      file: {
+        title: props.intl.formatMessage(messages.file),
+        widget: 'attachedfile',
+      },
+    },
+    required: [],
+  };
+  return {
+    title: props.intl.formatMessage(messages.Video),
+    block: 'Video',
+    fieldsets: [
+      {
+        id: 'default',
+        title: 'Default',
+        fields: [
+          'url',
+          'preview_image',
+          'align',
+          'autoPlay',
+          'loop',
+          'subtitles',
+        ],
+      },
+    ],
+
+    properties: {
+      url: {
+        title: props.intl.formatMessage(messages.VideoURL),
+        widget: 'url',
+      },
+      preview_image: {
+        title: props.intl.formatMessage(messages.Preview_image),
+        widget: 'url',
+      },
+      align: {
+        title: props.intl.formatMessage(messages.Alignment),
+        widget: 'align',
+      },
+      autoPlay: {
+        title: props.intl.formatMessage(messages.autoPlay),
+        type: 'boolean',
+      },
+      loop: {
+        title: props.intl.formatMessage(messages.loop),
+        type: 'boolean',
+      },
+      subtitles: {
+        title: 'Subtitles',
+        widget: 'object_list',
+        schema: subtitlesSchema,
+      },
+    },
+    required: [],
+  };
+};
 
 export default VideoBlockSchema;

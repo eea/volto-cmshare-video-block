@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isInternalURL, flattenToAppURL } from '@plone/volto/helpers';
-
+import config from '@plone/volto/registry';
 /**
  * NextCloudEmbed video block class.
  * @class NextCloudEmbed
@@ -29,7 +29,30 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
       loop={data.loop}
       poster={embedSettings.placeholder}
       type="video/mp4"
-    />
+    >
+      {data?.subtitles?.length > 0 &&
+        data?.subtitles?.map((subtitle) => {
+          if (subtitle?.file !== null && subtitle?.file !== undefined)
+            return (
+              <track
+                label={
+                  config?.settings?.eea.languages.find(
+                    (lang) => subtitle?.language === lang.code,
+                  ).name
+                }
+                kind="subtitles"
+                srclang={subtitle?.language}
+                src={
+                  typeof subtitle?.file === 'string' &&
+                  isInternalURL(subtitle?.file)
+                    ? flattenToAppURL(subtitle?.file) + '/@@download/file'
+                    : `data:${subtitle?.file['content-type']};${subtitle?.file?.encoding},${subtitle?.file?.data}`
+                }
+              />
+            );
+          else return <></>;
+        })}
+    </video>
   );
 };
 
