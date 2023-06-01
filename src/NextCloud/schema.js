@@ -56,7 +56,7 @@ export const VideoBlockSchema = (props) => {
       },
       file: {
         title: props.intl.formatMessage(messages.file),
-        widget: 'file',
+        widget: 'attachedfile',
       },
     },
     required: [],

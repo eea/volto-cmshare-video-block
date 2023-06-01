@@ -30,22 +30,33 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
       poster={embedSettings.placeholder}
       type="video/mp4"
     >
-      {data.subtitles.map((subtitle) => {
-        if (subtitle?.file)
-          return (
-            <track
-              label={
-                config?.settings?.eea.languages.find(
-                  (lang) => subtitle?.language === lang.code,
-                ).name
-              }
-              kind="subtitles"
-              srclang={subtitle?.language}
-              src={`data:${subtitle?.file['content-type']};${subtitle?.file?.encoding},${subtitle?.file?.data}`}
-            />
+      {data?.subtitles?.length > 0 &&
+        data?.subtitles?.map((subtitle) => {
+          console.log(
+            typeof subtitle.file === 'string' && isInternalURL(subtitle.file)
+              ? subtitle.file
+              : `data:${subtitle?.file['content-type']};${subtitle?.file?.encoding},${subtitle?.file?.data}`,
           );
-        else return <></>;
-      })}
+          if (subtitle?.file)
+            return (
+              <track
+                label={
+                  config?.settings?.eea.languages.find(
+                    (lang) => subtitle?.language === lang.code,
+                  ).name
+                }
+                kind="subtitles"
+                srclang={subtitle?.language}
+                src={
+                  typeof subtitle.file === 'string' &&
+                  isInternalURL(subtitle.file)
+                    ? flattenToAppURL(subtitle.file) + '/@@download/file'
+                    : `data:${subtitle?.file['content-type']};${subtitle?.file?.encoding},${subtitle?.file?.data}`
+                }
+              />
+            );
+          else return <></>;
+        })}
     </video>
   );
 };
