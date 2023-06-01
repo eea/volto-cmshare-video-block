@@ -32,12 +32,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
     >
       {data?.subtitles?.length > 0 &&
         data?.subtitles?.map((subtitle) => {
-          console.log(
-            typeof subtitle.file === 'string' && isInternalURL(subtitle.file)
-              ? subtitle.file
-              : `data:${subtitle?.file['content-type']};${subtitle?.file?.encoding},${subtitle?.file?.data}`,
-          );
-          if (subtitle?.file)
+          if (subtitle?.file !== null && subtitle?.file !== undefined)
             return (
               <track
                 label={
@@ -48,9 +43,9 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
                 kind="subtitles"
                 srclang={subtitle?.language}
                 src={
-                  typeof subtitle.file === 'string' &&
-                  isInternalURL(subtitle.file)
-                    ? flattenToAppURL(subtitle.file) + '/@@download/file'
+                  typeof subtitle?.file === 'string' &&
+                  isInternalURL(subtitle?.file)
+                    ? flattenToAppURL(subtitle?.file) + '/@@download/file'
                     : `data:${subtitle?.file['content-type']};${subtitle?.file?.encoding},${subtitle?.file?.data}`
                 }
               />
