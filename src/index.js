@@ -27,6 +27,7 @@ const applyConfig = (config) => {
     },
     autoAdd: false,
   };
+
   return config;
 };
 
