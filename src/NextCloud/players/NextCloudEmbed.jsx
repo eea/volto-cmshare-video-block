@@ -41,7 +41,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
                   ).name
                 }
                 kind="subtitles"
-                srclang={subtitle?.language}
+                srcLang={subtitle?.language}
                 src={
                   typeof subtitle?.file === 'string' &&
                   isInternalURL(subtitle?.file)
