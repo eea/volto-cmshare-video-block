@@ -6,7 +6,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { isInternalURL, flattenToAppURL } from '@plone/volto/helpers';
+import { isInternalURL } from '@plone/volto/helpers';
+import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
 import players from './players';
 
 /**
@@ -15,10 +16,12 @@ import players from './players';
  * @extends Component
  */
 const Body = ({ data }) => {
-  let placeholder = data.preview_image
-    ? isInternalURL(data.preview_image)
-      ? `${flattenToAppURL(data.preview_image)}/@@images/image`
-      : data.preview_image
+  const previewImage = getFieldURL(data.preview_image);
+  const url = getFieldURL(data.url);
+  let placeholder = previewImage
+    ? isInternalURL(previewImage)
+      ? `${previewImage}/@@images/image`
+      : previewImage
     : null;
 
   const ref = React.createRef();
@@ -52,7 +55,7 @@ const Body = ({ data }) => {
   const SelectedPlayerComponent = allowedPlayersList.reduce(
     (acc, currentPlayerName) => {
       // eslint-disable-next-line no-unused-expressions
-      const result = data.url?.match(currentPlayerName)
+      const result = url?.match(currentPlayerName)
         ? allowedPlayers[currentPlayerName]
         : acc;
       return result;
@@ -62,7 +65,7 @@ const Body = ({ data }) => {
 
   return (
     <>
-      {data.url && (
+      {url && (
         <div
           className={cx('video-inner', {
             'full-width': data.align === 'full',

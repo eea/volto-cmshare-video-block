@@ -5,6 +5,7 @@ import { Segment } from 'semantic-ui-react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Icon } from '@plone/volto/components';
 import videoSVG from '@plone/volto/icons/videocamera.svg';
+import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
 
 const messages = defineMessages({
   Video: {
@@ -19,12 +20,13 @@ const messages = defineMessages({
 
 const VideoSidebar = (props) => {
   const { data, block, onChangeBlock, resetSubmitUrl } = props;
+  const url = getFieldURL(data.url);
   const intl = useIntl();
   const schema = VideoBlockSchema({ ...props, intl });
 
   return (
     <>
-      {!data.url ? (
+      {!url ? (
         <Segment className="sidebar-metadata-container" secondary>
           {props.intl.formatMessage(messages.NoVideo)}
           <Icon name={videoSVG} size="100px" color="#b8c6c8" />
