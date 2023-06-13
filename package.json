@@ -12,6 +12,9 @@
     "plone",
     "react"
   ],
+  "addons": [
+    "@eeacms/volto-object-widget"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:eea/volto-nextcloud-video-block.git"
