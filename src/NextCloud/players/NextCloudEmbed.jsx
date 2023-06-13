@@ -35,6 +35,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
           if (subtitle?.file !== null && subtitle?.file !== undefined)
             return (
               <track
+                key={index}
                 label={
                   config?.blocks?.blocksConfig?.nextCloudVideo?.subtitlesLanguages.find(
                     (lang) => subtitle?.language === lang?.[0],
