@@ -31,14 +31,14 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
       type="video/mp4"
     >
       {data?.subtitles?.length > 0 &&
-        data?.subtitles?.map((subtitle) => {
+        data?.subtitles?.map((subtitle, index) => {
           if (subtitle?.file !== null && subtitle?.file !== undefined)
             return (
               <track
                 label={
-                  config?.settings?.eea.languages.find(
-                    (lang) => subtitle?.language === lang.code,
-                  ).name
+                  config?.blocks?.blocksConfig?.nextCloudVideo?.subtitlesLanguages.find(
+                    (lang) => subtitle?.language === lang?.[0],
+                  )?.[1]
                 }
                 kind="subtitles"
                 srcLang={subtitle?.language}

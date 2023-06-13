@@ -3,13 +3,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import NextCloudEmbed from './NextCloudEmbed';
 import { isInternalURL, flattenToAppURL } from '@plone/volto/helpers';
-import config from '@plone/volto/registry';
 
-config.settings = {
-  eea: {
-    languages: [{ code: 'en', name: 'English' }],
-  },
-};
 jest.mock('@plone/volto/helpers', () => ({
   isInternalURL: jest.fn(),
   flattenToAppURL: jest.fn(),
