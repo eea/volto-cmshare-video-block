@@ -107,6 +107,7 @@ describe('Blocks Tests', () => {
         if (!video) {
           throw new Error('Cant find video');
         }
+        cy.wait(1000);
         if (!(video[0].textTracks.length > 0)) {
           throw new Error('cues not present');
         }
