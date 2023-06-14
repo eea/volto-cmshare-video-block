@@ -101,7 +101,7 @@ describe('Blocks Tests', () => {
 
     cy.contains('Volto NextCloud Video Demo');
     cy.get('.block.video')
-      .get('video')
+      .get('track')
       .then(() => {
         const video = Cypress.$('video');
         if (!video) {
