@@ -32,7 +32,6 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
     >
       {data?.subtitles?.length > 0 &&
         data?.subtitles?.map((subtitle, index) => {
-          console.log({ subtitle });
           if (subtitle?.file !== null && subtitle?.file !== undefined)
             return (
               <track

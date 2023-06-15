@@ -59,6 +59,9 @@ describe('Blocks Tests', () => {
   it('Check Subtitles', () => {
     // Intercept cmshare request
     cy.intercept('GET', 'https://cmshare.eea.europa.eu/download').as('cmshare');
+    cy.intercept('GET', ' http://localhost:3000/++api++/cypress/my-page').as(
+      'page',
+    );
 
     // Change page title
     cy.clearSlateTitle();
@@ -103,6 +106,7 @@ describe('Blocks Tests', () => {
       .should('be.visible')
       .should('not.be.empty')
       .then(($video) => {
+        cy.wait('@page');
         cy.wait(5000);
         const $track = $video.contents()?.[0];
         cy.wrap($track).should('have.attr', 'kind', 'subtitles');
