@@ -51,7 +51,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
                 }
               />
             );
-          else return <></>;
+          else return <div key={index}></div>;
         })}
     </video>
   );
