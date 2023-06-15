@@ -103,10 +103,8 @@ describe('Blocks Tests', () => {
       .should('be.visible')
       .should('not.be.empty')
       .then(($video) => {
-        // ... more commands
         cy.wait(5000);
         const $track = $video.contents()?.[0];
-
         cy.wrap($track).should('have.attr', 'kind', 'subtitles');
       });
   });
