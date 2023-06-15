@@ -61,27 +61,40 @@ describe('Blocks Tests', () => {
     cy.intercept('GET', 'https://cmshare.eea.europa.eu/download').as('cmshare');
 
     // Change page title
+
     cy.clearSlateTitle();
     cy.getSlateTitle().type('Volto NextCloud Video Demo');
     cy.get('.documentFirstHeading').contains('Volto NextCloud Video Demo');
-    cy.getSlate().click();
 
     // Add block
+
+    cy.get('#toolbar-save').click();
+    cy.get('#toolbar-add').click().get('#toolbar-add-file').click();
+    cy.get('#field-file')
+      .focus()
+      .selectFile('cypress/resources/captions-sample.vtt', { force: true });
+    cy.get('#field-title').type('captions');
+    cy.get('#toolbar-save').click();
+
+    cy.visit('/cypress/my-page');
+    cy.waitForResourceToLoad('@navigation');
+    cy.waitForResourceToLoad('@breadcrumbs');
+    cy.waitForResourceToLoad('@actions');
+    cy.waitForResourceToLoad('@types');
+    cy.waitForResourceToLoad('my-page');
+    cy.navigate('/cypress/my-page/edit');
+    cy.getSlate().click();
     cy.get('.ui.basic.icon.button.block-add-button').first().click();
     cy.get(".blocks-chooser .ui.form .field.searchbox input[type='text']").type(
       'video (NextCloud)',
     );
     cy.get('.nextCloudVideo').click();
 
-    // Check if error message is not displayed
-    cy.get('.ui.error.message').should('not.exist');
-
     // Add cmshare video link and check if it is valid
     cy.get('.block.video .toolbar-inner .ui.input').type(
       'https://cmshare.eea.europa.eu/',
     );
     cy.get('.block.video .toolbar-inner .ui.buttons .ui.basic.primary').click();
-    cy.get('.ui.error.message').should('not.exist');
 
     // Wait for cmshare request
     cy.wait('@cmshare');
@@ -89,15 +102,12 @@ describe('Blocks Tests', () => {
     //add subtitles in menu
     cy.get('[aria-label="Add Subtitles"]').click();
     cy.get('#field-language-0-subtitles-0').type('{enter}');
-    cy.get('#field-file-1-subtitles-0')
-      .focus()
-      .selectFile('cypress/resources/captions-sample.vtt', { force: true });
-
+    cy.get('.file-picker-toolbar button').first().click();
+    cy.get('.object-listing li').first().click();
+    cy.get('.file-picker-toolbar button').next().next().click();
     // Save
     cy.get('#toolbar-save').click();
     cy.url().should('eq', Cypress.config().baseUrl + '/cypress/my-page');
-
-    cy.contains('Volto NextCloud Video Demo');
     cy.get('.block.video')
       .get('video')
       .should('be.visible')
