@@ -50,8 +50,10 @@ export const VideoBlockSchema = (props) => {
       language: {
         title: props.intl.formatMessage(messages.language),
         choices: [
-          ...(config?.settings?.eea.languages.map((el) => [el.code, el.name]) ||
-            []),
+          ...(config?.settings?.eea?.languages.map((el) => [
+            el.code,
+            el.name,
+          ]) || []),
         ],
       },
       file: {

@@ -36,7 +36,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
             return (
               <track
                 label={
-                  config?.settings?.eea.languages.find(
+                  config?.settings?.eea?.languages.find(
                     (lang) => subtitle?.language === lang.code,
                   ).name
                 }
