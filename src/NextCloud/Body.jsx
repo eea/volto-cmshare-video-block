@@ -6,8 +6,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { isInternalURL } from '@plone/volto/helpers';
-import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
+import {
+  getFieldURL,
+  getImageScaleParams,
+} from '@eeacms/volto-nextcloud-video-block/helpers';
 import players from './players';
 
 /**
@@ -16,13 +18,9 @@ import players from './players';
  * @extends Component
  */
 const Body = ({ data }) => {
-  const previewImage = getFieldURL(data.preview_image);
+  const previewImage = getImageScaleParams(data.preview_image);
   const url = getFieldURL(data.url);
-  let placeholder = previewImage
-    ? isInternalURL(previewImage)
-      ? `${previewImage}/@@images/image`
-      : previewImage
-    : null;
+  let placeholder = previewImage?.download;
 
   const ref = React.createRef();
   const onKeyDown = (e) => {
