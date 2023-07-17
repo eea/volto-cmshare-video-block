@@ -11,6 +11,7 @@ const applyConfig = (config) => {
     icon: videoSVG,
     group: 'media',
     view: NextCloudVideoView,
+    subtitlesLanguages: [['en', 'English']],
     edit: NextCloudVideoEdit,
     schema: VideoBlockSchema,
     restricted: false,

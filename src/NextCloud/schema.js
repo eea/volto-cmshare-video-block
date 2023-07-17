@@ -49,12 +49,9 @@ export const VideoBlockSchema = (props) => {
     properties: {
       language: {
         title: props.intl.formatMessage(messages.language),
-        choices: [
-          ...(config?.settings?.eea?.languages.map((el) => [
-            el.code,
-            el.name,
-          ]) || []),
-        ],
+        choices:
+          config?.blocks?.blocksConfig?.nextCloudVideo?.subtitlesLanguages ||
+          [],
       },
       file: {
         title: props.intl.formatMessage(messages.file),

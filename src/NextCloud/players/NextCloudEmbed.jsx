@@ -31,17 +31,18 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
       type="video/mp4"
     >
       {data?.subtitles?.length > 0 &&
-        data?.subtitles?.map((subtitle) => {
+        data?.subtitles?.map((subtitle, index) => {
           if (subtitle?.file !== null && subtitle?.file !== undefined)
             return (
               <track
+                key={index}
                 label={
-                  config?.settings?.eea?.languages.find(
-                    (lang) => subtitle?.language === lang.code,
-                  ).name
+                  config?.blocks?.blocksConfig?.nextCloudVideo?.subtitlesLanguages.find(
+                    (lang) => subtitle?.language === lang?.[0],
+                  )?.[1]
                 }
                 kind="subtitles"
-                srclang={subtitle?.language}
+                srcLang={subtitle?.language}
                 src={
                   typeof subtitle?.file === 'string' &&
                   isInternalURL(subtitle?.file)
@@ -50,7 +51,7 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
                 }
               />
             );
-          else return <></>;
+          else return <div key={index}></div>;
         })}
     </video>
   );

@@ -1,6 +1,6 @@
 {
   "name": "@eeacms/volto-nextcloud-video-block",
-  "version": "0.3.1",
+  "version": "0.4.1",
   "description": "@eeacms/volto-nextcloud-video-block: Volto add-on to embed Videos from NextCloud",
   "main": "src/index.js",
   "author": "European Environment Agency: IDM2 A-Team",
@@ -12,9 +12,15 @@
     "plone",
     "react"
   ],
+  "addons": [
+    "@eeacms/volto-object-widget"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:eea/volto-nextcloud-video-block.git"
+  },
+  "dependencies": {
+    "@eeacms/volto-object-widget": "*"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.0",
