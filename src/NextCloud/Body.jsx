@@ -6,6 +6,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { useSelector, useDispatch } from 'react-redux';
+import { getContent } from '@plone/volto/actions';
+import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import {
   getFieldURL,
   getImageScaleParams,
@@ -17,10 +20,23 @@ import players from './players';
  * @class Body
  * @extends Component
  */
-const Body = ({ data }) => {
-  const previewImage = getImageScaleParams(data.preview_image);
+const Body = (props) => {
+  const { data, block } = props;
+  const dispatch = useDispatch();
+  const image = useSelector(
+    (state) => state.content.subrequests?.[block]?.data?.image,
+  );
+
+  React.useEffect(() => {
+    if (isInternalURL(data.preview_image)) {
+      dispatch(getContent(flattenToAppURL(data.preview_image), null, block));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.preview_image]);
+
+  const previewImage = getImageScaleParams(image, 'preview');
   const url = getFieldURL(data.url);
-  let placeholder = previewImage?.download;
+  let placeholder = previewImage?.download ?? data.preview_image;
 
   const ref = React.createRef();
   const onKeyDown = (e) => {

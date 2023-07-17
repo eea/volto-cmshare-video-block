@@ -10,7 +10,8 @@ export const getFieldURL = (data) => {
   if (_isObject && data['@type'] === 'URL') {
     url = data['value'] ?? data['url'] ?? data['href'] ?? data;
   } else if (_isObject) {
-    url = data['@id'] ?? data['url'] ?? data['href'] ?? data;
+    url =
+      data['@id'] ?? data['url'] ?? data['href'] ?? data['download'] ?? data;
   }
   if (isArray(data)) {
     url = data.map((item) => getFieldURL(item));
@@ -46,8 +47,8 @@ export function getImageScaleParams(image, size) {
           width,
           height,
         };
-      } else if (image?.image?.scales) {
-        const scale = image.image?.scales?.[imageScale] || image.image;
+      } else if (image?.scales) {
+        const scale = image.scales?.[imageScale] || image;
         const download = flattenToAppURL(scale?.download);
         const width = scale?.width;
         const height = scale?.height;
