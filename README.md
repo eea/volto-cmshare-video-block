@@ -25,9 +25,22 @@ This add-on only allows playback from Nextcloud videos, from a selection of allo
 
 ## Getting started
 
+### Try volto-nextcloud-video-block with Docker
+
+      git clone https://github.com/eea/volto-nextcloud-video-block.git
+      cd volto-nextcloud-video-block
+      make
+      make start
+
+Go to http://localhost:3000
+
 ### Add volto-nextcloud-video-block to your Volto project
 
 1. Make sure you have a [Plone backend](https://plone.org/download) up-and-running at http://localhost:8080/Plone
+
+   ```Bash
+   docker compose up backend
+   ```
 
 1. Start Volto frontend
 
