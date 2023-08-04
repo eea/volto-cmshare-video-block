@@ -2,6 +2,10 @@ import { defineMessages } from 'react-intl';
 import config from '@plone/volto/registry';
 
 const messages = defineMessages({
+  Title: {
+    id: 'Title',
+    defaultMessage: 'Title',
+  },
   Video: {
     id: 'Video',
     defaultMessage: 'Video',
@@ -68,6 +72,7 @@ export const VideoBlockSchema = (props) => {
         id: 'default',
         title: 'Default',
         fields: [
+          'title',
           'url',
           'preview_image',
           'align',
@@ -79,6 +84,9 @@ export const VideoBlockSchema = (props) => {
     ],
 
     properties: {
+      title: {
+        title: props.intl.formatMessage(messages.Title),
+      },
       url: {
         title: props.intl.formatMessage(messages.VideoURL),
         widget: 'url',
