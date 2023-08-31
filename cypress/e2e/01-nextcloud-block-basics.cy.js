@@ -25,11 +25,14 @@ describe('Blocks Tests', () => {
 
     // Check if error message is not displayed
     cy.get('.ui.error.message').should('not.exist');
+    cy.get('.block.video .toolbar-inner .ui.input').type(
+      'https://www.youtube.com/{esc}',
+    );
 
     // Add youtube video link and check if it is valid
-    cy.get('.block.video .toolbar-inner .ui.input').type(
-      'https://www.youtube.com/',
-    );
+    cy.get('.block.video .toolbar-inner .ui.input')
+      .click()
+      .type('https://www.youtube.com/');
     cy.get('.block.video .toolbar-inner .ui.buttons .ui.basic.primary').click();
     cy.get('.ui.error.message').should('exist');
 
@@ -39,10 +42,10 @@ describe('Blocks Tests', () => {
 
     // Add cmshare video link and check if it is valid
     cy.get('.block.video .toolbar-inner .ui.input').type(
-      'https://cmshare.eea.europa.eu/',
+      'https://cmshare.eea.europa.eu/{enter}',
     );
-    cy.get('.block.video .toolbar-inner .ui.buttons .ui.basic.primary').click();
     cy.get('.ui.error.message').should('not.exist');
+    cy.get('#blockform-fieldset-default #field-title').type('test cmshare');
 
     // Wait for cmshare request
     cy.wait('@cmshare');
