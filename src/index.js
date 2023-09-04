@@ -1,7 +1,26 @@
 import NextCloudVideoEdit from './NextCloud/NextCloudVideoEdit';
 import NextCloudVideoView from './NextCloud/NextCloudVideoView';
-import VideoBlockSchema from './NextCloud/schema';
+import LayoutSchema from './NextCloud/LayoutSchema';
 import videoSVG from '@plone/volto/icons/videocamera.svg';
+
+import { defineMessages, createIntlCache, createIntl } from 'react-intl';
+
+const messages = defineMessages({
+  NextCloudVideoTitle: {
+    id: 'NextCloudVideo',
+    defaultMessage: 'NextCloudVideo',
+  },
+});
+
+const cache = createIntlCache();
+
+const intl = createIntl(
+  {
+    locale: 'en',
+    messages: messages,
+  },
+  cache,
+);
 
 const applyConfig = (config) => {
   config.blocks.blocksConfig.nextCloudVideo = {
@@ -13,7 +32,7 @@ const applyConfig = (config) => {
     view: NextCloudVideoView,
     subtitlesLanguages: [['en', 'English']],
     edit: NextCloudVideoEdit,
-    schema: VideoBlockSchema,
+    schema: LayoutSchema(intl),
     restricted: false,
     mostUsed: false,
     blockHasOwnFocusManagement: false,
