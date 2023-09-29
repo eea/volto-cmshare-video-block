@@ -4,7 +4,7 @@ pipeline {
   environment {
         GIT_NAME = "volto-nextcloud-video-block"
         NAMESPACE = "@eeacms"
-        SONARQUBE_TAGS = "volto.eea.europa.eu,demo-www.eea.europa.eu,www.eea.europa.eu-en,climate-advisory-board.europa.eu,clmsdemo.devel6cph.eea.europa.eu,climate-adapt.eea.europa.eu,biodiversity.europa.eu,water.europa.eu-marine,industry.eea.europa.eu,climate-energy.eea.europa.eu"
+        SONARQUBE_TAGS = "volto.eea.europa.eu,demo-www.eea.europa.eu,www.eea.europa.eu-en,climate-advisory-board.europa.eu,clmsdemo.devel6cph.eea.europa.eu,climate-adapt.eea.europa.eu,biodiversity.europa.eu,water.europa.eu-marine,industry.eea.europa.eu,climate-energy.eea.europa.eu,water.europa.eu-freshwater,forest.eea.europa.eu"
         DEPENDENCIES = ""
         VOLTO = ""
     }
@@ -62,11 +62,17 @@ pipeline {
 
     stage('Tests') {
       when {
-        allOf {
-          environment name: 'CHANGE_ID', value: ''
-          anyOf {
-           not { changelog '.*^Automated release [0-9\\.]+$' }
-           branch 'master'
+        anyOf {
+          allOf {
+            not { environment name: 'CHANGE_ID', value: '' }
+            environment name: 'CHANGE_TARGET', value: 'develop'
+          }
+          allOf {
+            environment name: 'CHANGE_ID', value: ''
+            anyOf {
+              not { changelog '.*^Automated release [0-9\\.]+$' }
+              branch 'master'
+            }
           }
         }
       }
@@ -110,11 +116,17 @@ pipeline {
 
     stage('Integration tests') {
       when {
-        allOf {
-          environment name: 'CHANGE_ID', value: ''
-          anyOf {
-           not { changelog '.*^Automated release [0-9\\.]+$' }
-           branch 'master'
+        anyOf {
+          allOf {
+            not { environment name: 'CHANGE_ID', value: '' }
+            environment name: 'CHANGE_TARGET', value: 'develop'
+          }
+          allOf {
+            environment name: 'CHANGE_ID', value: ''
+            anyOf {
+              not { changelog '.*^Automated release [0-9\\.]+$' }
+              branch 'master'
+            }
           }
         }
       }
@@ -167,13 +179,19 @@ pipeline {
 
     stage('Report to SonarQube') {
       when {
-        allOf {
-          environment name: 'CHANGE_ID', value: ''
-          anyOf {
-            branch 'master'
-            allOf {
-              branch 'develop'
-              not { changelog '.*^Automated release [0-9\\.]+$' }
+        anyOf {
+          allOf {
+            not { environment name: 'CHANGE_ID', value: '' }
+            environment name: 'CHANGE_TARGET', value: 'develop'
+          }
+          allOf {
+            environment name: 'CHANGE_ID', value: ''
+            anyOf {
+              allOf {
+                branch 'develop'
+                not { changelog '.*^Automated release [0-9\\.]+$' }
+              }
+              branch 'master'
             }
           }
         }
@@ -199,10 +217,16 @@ pipeline {
 
     stage('SonarQube compare to master') {
       when {
-        allOf {
-          environment name: 'CHANGE_ID', value: ''
-          branch 'develop'
-          not { changelog '.*^Automated release [0-9\\.]+$' }
+        anyOf {
+          allOf {
+            not { environment name: 'CHANGE_ID', value: '' }
+            environment name: 'CHANGE_TARGET', value: 'develop'
+          }
+          allOf {
+            environment name: 'CHANGE_ID', value: ''
+            branch 'develop'
+            not { changelog '.*^Automated release [0-9\\.]+$' }
+          }
         }
       }
       steps {

@@ -1,2 +1,2 @@
-export NextCloudVideoEdit from './NextCloudVideoEdit';
-export NextCloudVideoView from './NextCloudVideoView';
+export { default as NextCloudVideoEdit } from './NextCloudVideoEdit';
+export { default as NextCloudVideoView } from './NextCloudVideoView';
