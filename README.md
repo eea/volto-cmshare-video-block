@@ -20,7 +20,7 @@
 ## Features
 
 This add-on only allows playback from Nextcloud videos, from a selection of allowed domains.
-![Nextcloud](https://github.com/eea/volto-nextcloud-video-block/raw/master/docs/Nextcloud-video.gif)
+![Nextcloud](https://raw.githubusercontent.com/eea/volto-nextcloud-video-block/master/docs/Nextcloud-video.gif)
 
 Add `whitelist`` in **index.js**:
 
