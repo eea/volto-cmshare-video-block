@@ -22,7 +22,7 @@ export const getFieldURL = (data) => {
 
 export function getImageScaleParams(image, size) {
   const imageScale =
-    config.blocks.blocksConfig['teaser']?.imageScale || size || 'preview';
+    config.blocks?.blocksConfig['teaser']?.imageScale || size || 'preview';
 
   if (isString(image))
     return isInternalURL(image)
@@ -47,8 +47,8 @@ export function getImageScaleParams(image, size) {
           width,
           height,
         };
-      } else if (image?.scales) {
-        const scale = image.scales?.[imageScale] || image;
+      } else if (image?.image?.scales) {
+        const scale = image.image?.scales?.[imageScale] || image.image;
         const download = flattenToAppURL(scale?.download);
         const width = scale?.width;
         const height = scale?.height;
