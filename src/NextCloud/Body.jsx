@@ -80,13 +80,14 @@ const Body = (props) => {
   return (
     <>
       {url && (
-        <div
+        <figure
           className={cx('video-inner', {
             'full-width': data.align === 'full',
           })}
         >
           <SelectedPlayerComponent {...{ data, embedSettings }} />
-        </div>
+          {data.title && <figcaption>{data.title}</figcaption>}
+        </figure>
       )}
     </>
   );

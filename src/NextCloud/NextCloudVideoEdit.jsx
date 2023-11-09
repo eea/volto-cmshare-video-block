@@ -201,7 +201,7 @@ class Edit extends Component {
                 onFocus={(e) => {
                   this.props.onSelectBlock(this.props.id);
                 }}
-                error={this.state.url && !this.state.valid}
+                error={!!this.state.url && !this.state.valid}
               />
               {this.state.url && (
                 <Button.Group>
