@@ -1,5 +1,5 @@
 import { getFieldURL, getImageScaleParams } from './helpers';
-import { flattenToAppURL } from '@plone/volto/helpers';
+import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 
 jest.mock('@plone/volto/helpers', () => ({
   flattenToAppURL: jest.fn((url) => url),
@@ -59,6 +59,21 @@ describe('getImageScaleParams', () => {
       height: 400,
     };
     expect(getImageScaleParams(image, 'preview')).toEqual(expectedUrlObj);
+  });
+
+  it('returns expected image scale URL string when image url (string) is passed', () => {
+    const image = 'http://localhost:3000/image/@@images/image.png';
+    expect(getImageScaleParams(image, 'preview')).toEqual({
+      download: `${image}/@@images/image/preview`,
+    });
+  });
+
+  it('returns image URL string when external image url (string) is passed', () => {
+    isInternalURL.mockReturnValue(false);
+    const image = 'http://external-url.com';
+    expect(getImageScaleParams(image)).toEqual({
+      download: image,
+    });
   });
 
   it('calls flattenToAppURL when internalUrl', () => {
