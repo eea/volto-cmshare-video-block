@@ -61,6 +61,19 @@ describe('getImageScaleParams', () => {
     expect(getImageScaleParams(image, 'preview')).toEqual(expectedUrlObj);
   });
 
+  it('returns expected image scale URL obj when image properties are empty', () => {
+    const image = {
+      '@id': 'http://localhost:3000/image',
+      image_field: 'image',
+      image_scales: {},
+    };
+
+    const expectedUrlObj = {
+      download: 'http://localhost:3000/image/@@images/image/preview',
+    };
+    expect(getImageScaleParams(image, 'preview')).toEqual(expectedUrlObj);
+  });
+
   it('returns expected image scale URL string when image url (string) is passed', () => {
     const image = 'http://localhost:3000/image/@@images/image.png';
     expect(getImageScaleParams(image, 'preview')).toEqual({
