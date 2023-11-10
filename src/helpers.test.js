@@ -89,6 +89,28 @@ describe('getImageScaleParams', () => {
     });
   });
 
+  it('returns image URL string when external image url (object) is passed', () => {
+    isInternalURL.mockReturnValue(false);
+    const image = {
+      '@id': 'http://external-url.com',
+      image: {
+        download: 'http://external-url.com',
+        width: 400,
+        height: 400,
+        scales: {
+          preview: {
+            download: 'hhttp://external-url.com',
+            width: 400,
+            height: 400,
+          },
+        },
+      },
+    };
+    expect(getImageScaleParams(image)).toEqual({
+      download: image['@id'],
+    });
+  });
+
   it('calls flattenToAppURL when internalUrl', () => {
     const url = 'http://localhost:3000/image';
     const size = 'large';
