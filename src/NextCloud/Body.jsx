@@ -24,7 +24,7 @@ const Body = (props) => {
   const { data, block } = props;
   const dispatch = useDispatch();
   const image = useSelector(
-    (state) => state.content.subrequests?.[block]?.data?.image,
+    (state) => state.content.subrequests?.[block]?.data,
   );
 
   React.useEffect(() => {
